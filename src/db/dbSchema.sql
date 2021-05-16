@@ -1,3 +1,15 @@
+# Table User
+# ------------------------------------------------------------
+
+CREATE TABLE `User` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL DEFAULT '',
+  `password` varchar(11) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE(`username`)
+);
+
+
 # Table user_follow_through
 # ------------------------------------------------------------
 
@@ -12,7 +24,6 @@ CREATE TABLE `User_follow_through` (
 );
 
 
-
 # Table Tweet
 # ------------------------------------------------------------
 
@@ -25,16 +36,4 @@ CREATE TABLE `Tweet` (
   FOREIGN KEY (`createdBy`) REFERENCES User(`id`)
 );
 
-
-
-# Table User
-# ------------------------------------------------------------
-
-CREATE TABLE `User` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(64) NOT NULL DEFAULT '',
-  `password` varchar(11) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  UNIQUE(`username`)
-);
 
