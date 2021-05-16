@@ -8,7 +8,7 @@ CREATE TABLE `User_follow_through` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`follower_user`) REFERENCES User(`id`),
   FOREIGN KEY (`followed_user`) REFERENCES User(`id`),
-  CONSTRAINT follower_followed UNIQUE (`follower_user`, `followed_user`)
+  UNIQUE KEY(`follower_user`, `followed_user`)
 );
 
 

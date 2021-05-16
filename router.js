@@ -1,7 +1,8 @@
 const {
   validateTweet,
   validateUserNamePassword,
-  isAuthenticated
+  isAuthenticated,
+  validateFollowUser
 } = require('./src/policies');
 const userControllers = require('./src/controllers/userController');
 const authController = require('./src/controllers/authController');
@@ -12,5 +13,6 @@ module.exports = {
     app.post('/register', [validateUserNamePassword], userControllers.register);
     app.post('/login', [validateUserNamePassword], authController.login);
     app.post('/tweet', [validateTweet, isAuthenticated], tweetController.create);
+    app.post('/follow/user/:id', [isAuthenticated, validateFollowUser], userControllers.follow);
   }
 };

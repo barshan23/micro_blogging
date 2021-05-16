@@ -13,5 +13,17 @@ module.exports = {
       .catch((err) => {
         return handleError(err, res);
       });
+  },
+  follow: function (req, res) {
+    const userIdToFollow = Number(req.params.id),
+      currentUserId = req.userId;
+
+    userService.followUser({userIdToFollow, currentUserId})
+      .then((response) => {
+        return res.json(response);
+      })
+      .catch((err) => {
+        return handleError(err, res);
+      });
   }
 };

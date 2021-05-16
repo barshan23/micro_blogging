@@ -26,5 +26,10 @@ module.exports = {
   },
   checkUserExistence: async (userId) => {
     return UserModel.fetchUserByUserId(userId);
+  },
+  followUser: async ({currentUserId, userIdToFollow} = {}) => {
+    await UserModel.followUserById(currentUserId, userIdToFollow);
+
+    return Promise.resolve({ message: 'Successfully followed user' });
   }
 };

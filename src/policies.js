@@ -72,5 +72,28 @@ module.exports = {
     }
 
     return next();
+  },
+
+  validateFollowUser: function (req, res, next) {
+    const userIdToFollow = Number(req.params.id),
+      currentUser = req.userId;
+
+    if (currentUser === userIdToFollow) {
+      res.status(400).json({error: {
+        name: 'invalidRequest',
+        message: 'You can not follow yourself'
+      }});
+    }
+
+    checkUserExistence(userIdToFollow)
+      .then(() => {
+        return next();
+      })
+      .catch(() => {
+        return res.status(404).send({
+          message:'User not found',
+          details: {user_id: userIdToFollow}
+        });
+      });
   }
 };

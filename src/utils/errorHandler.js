@@ -1,7 +1,8 @@
 const errorHTTPStatusCode = {
     userNotCreated: 400,
     passwordValidationError: 401,
-    invalidCredentialsError: 401
+    invalidCredentialsError: 401,
+    alreadyFollowing: 400
   },
   DEFAULT_ERROR_HTTP_STATUS_CODE = 500,
   DEFAULT_ERROR_MESSAGE = 'Something went wrong';

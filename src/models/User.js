@@ -1,24 +1,31 @@
-const makeQuery = require('../db/DB');
+const makeQuery = require('../db/DB'),
+  SQL_DUPLICATE_ENTRY_ERROR_CODE = 'ER_DUP_ENTRY';
 
 module.exports = {
   create: async ({username, hashedPassword} = {}) => {
     const sqlQueryString = 'INSERT INTO `User` (`username`, `password`) values(?, ?)',
       valuesToBeInserted = [username, hashedPassword];
 
-    let queryResults;
+    let queryResult;
 
     try {
-        queryResults = await makeQuery(sqlQueryString, valuesToBeInserted);
+      queryResult = await makeQuery(sqlQueryString, valuesToBeInserted);
     } catch (error) {
       console.error(error);
 
+      let errorMessage = 'Encountered an error while creating user';
+
+      if (error.code === SQL_DUPLICATE_ENTRY_ERROR_CODE) {
+        errorMessage = 'This username is already taken';
+      }
+
       return Promise.reject({
         name: 'userNotCreated',
-        message: 'Encountered an error while creating user'
+        message: errorMessage
       });
     }
 
-    const {insertId: userId} = queryResults;
+    const {insertId: userId} = queryResult;
 
     return Promise.resolve({ userId });
   },
@@ -47,7 +54,6 @@ module.exports = {
       message: 'The user could not be found'
     });
   },
-
   fetchUserByUserId: async (userId) => {
     const sqlQueryString = 'SELECT * FROM `User` WHERE `id` = ?',
       values = [userId];
@@ -62,7 +68,7 @@ module.exports = {
       return Promise.reject();
     }
 
-    if (queryResult) {
+    if (queryResult && queryResult.length) {
       const userData = queryResult[0];
 
       return Promise.resolve(userData);
@@ -72,5 +78,32 @@ module.exports = {
       name: 'userNotFoundError',
       message: 'The user could not be found'
     });
+  },
+  followUserById: async (followerUserId, userIdBeingFollowed) => {
+    const sqlQueryString = 'INSERT INTO `User_follow_through` (`follower_user`, `followed_user`) values(?, ?)',
+      valuesToBeInserted = [followerUserId, userIdBeingFollowed];
+
+    let queryResult;
+
+    try {
+      queryResult = await makeQuery(sqlQueryString, valuesToBeInserted);
+    } catch (error) {
+      console.error(error);
+
+      let errorMessage = 'Unable to follow user',
+        errorName = 'unableToFollow';
+
+      if (error.code === SQL_DUPLICATE_ENTRY_ERROR_CODE) {
+        errorMessage = 'You are already following the user';
+        errorName = 'alreadyFollowing';
+      }
+
+      return Promise.reject({
+        name: errorName,
+        message:  errorMessage
+      });
+    }
+
+    return Promise.resolve();
   }
 };
