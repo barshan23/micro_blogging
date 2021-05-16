@@ -3,9 +3,15 @@ const bcrypt = require('bcrypt'),
   SALT_ROUNDS = 10;
 
 module.exports = {
-  hashPassword: async (plainTextPassword) => {
+  hashPassword: (plainTextPassword) => {
     const plainTextPasswordString = plainTextPassword.toString();
 
-    return await bcrypt.hash(plainTextPasswordString, SALT_ROUNDS);
+    return bcrypt.hash(plainTextPasswordString, SALT_ROUNDS);
+  },
+
+  comparePassword: (plainTextPassword, hashedPassword) => {
+    const plainTextPasswordString = plainTextPassword.toString();
+
+    return bcrypt.compare(plainTextPasswordString, hashedPassword);
   }
 };

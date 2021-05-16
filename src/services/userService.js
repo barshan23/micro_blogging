@@ -10,7 +10,7 @@ module.exports = {
       return Promise.reject({
         name: 'errorCreatingUser',
         message: 'Encountered an error while creating user'
-      }); 
+      });
     });
 
     const { userId } = await UserModel.create({username, hashedPassword}),

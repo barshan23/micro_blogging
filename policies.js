@@ -1,5 +1,5 @@
 module.exports = {
-  validateUserRegistration: function (req, res, next) {
+  validateUserNamePassword: function (req, res, next) {
     const requestBody = req.body,
       password = requestBody && requestBody.password,
       username = requestBody && requestBody.username;
@@ -25,6 +25,26 @@ module.exports = {
       }});
     }
   
+    return next();
+  },
+
+  isAuthenticated: function (req, res, next) {
+    const token = req.headers['authorization'];
+
+    if (!token) {
+      return res.status(401).send({ message:'Access token is required to make this request' });
+    }
+
+    try {
+        const id = jwt.verify(token, secret);
+
+        req.user_id = id.id;
+    } catch (error) {
+        console.error(error);
+
+        return res.status(401).send({ message:'Invalid access token' });
+    }
+
     return next();
   }
 };

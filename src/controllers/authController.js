@@ -1,12 +1,12 @@
-const userService = require('../services/userService');
+const authService = require('../services/authService');
 const { handleError } = require('../utils/errorHandler');
 
 module.exports = {
-  register: function (req, res) {
+  login: function (req, res) {
     const username = req.body.username,
       password = req.body.password;
 
-    userService.createUser({ username, password })
+      authService.login({username, password})
       .then((response) => {
         return res.json(response);
       })
