@@ -1,10 +1,16 @@
-const policies = require('./policies');
+const {
+  validateTweet,
+  validateUserNamePassword,
+  isAuthenticated
+} = require('./src/policies');
 const userControllers = require('./src/controllers/userController');
 const authController = require('./src/controllers/authController');
+const tweetController = require('./src/controllers/tweetController');
 
 module.exports = {
   registerRoutes:  function (app) {
-    app.post('/register', [policies.validateUserNamePassword], userControllers.register);
-    app.post('/login', [policies.validateUserNamePassword], authController.login);
+    app.post('/register', [validateUserNamePassword], userControllers.register);
+    app.post('/login', [validateUserNamePassword], authController.login);
+    app.post('/tweet', [validateTweet, isAuthenticated], tweetController.create);
   }
 };

@@ -1,12 +1,12 @@
-const authService = require('../services/authService');
+const tweetService = require('../services/tweetService');
 const { handleError } = require('../utils/errorHandler');
 
 module.exports = {
-  login: function (req, res) {
-    const username = req.body.username,
-      password = req.body.password;
+  create: function (req, res) {
+    const tweet = req.body.tweet,
+      userId = req.userId;
 
-    authService.login({username, password})
+    tweetService.createTweet({ tweet, userId })
       .then((response) => {
         return res.json(response);
       })

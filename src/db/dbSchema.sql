@@ -19,8 +19,7 @@ CREATE TABLE `User_follow_through` (
 CREATE TABLE `Tweet` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `tweet` text,
-  `createdAt` timestamp NULL DEFAULT NULL,
-  `updatedAt` timestamp NULL DEFAULT NULL,
+  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `createdBy` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`createdBy`) REFERENCES User(`id`)

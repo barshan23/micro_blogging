@@ -23,5 +23,8 @@ module.exports = {
       refreshToken,
       message: 'Successfully registerd'
     })
+  },
+  checkUserExistence: async (userId) => {
+    return UserModel.fetchUserByUserId(userId);
   }
 };

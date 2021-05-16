@@ -24,5 +24,24 @@ module.exports = {
       refreshToken = jwt.sign(tokenData, jwtSecret, jwtOptions);
 
       return refreshToken;
+  },
+  getDataFromAccessToken: (tokenToBeVerified) => {
+    const jwtSecret = process.env.SECRET_JWT;
+
+    let tokenData;
+
+    try {
+      tokenData = jwt.verify(tokenToBeVerified, jwtSecret)
+    } catch (err) {
+      console.error(err);
+
+      return;
+    }
+
+    if (tokenData.type === 'access') {
+      return tokenData;
+    }
+
+    return null;
   }
 };

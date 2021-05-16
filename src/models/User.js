@@ -46,5 +46,31 @@ module.exports = {
       name: 'userNotFoundError',
       message: 'The user could not be found'
     });
+  },
+
+  fetchUserByUserId: async (userId) => {
+    const sqlQueryString = 'SELECT * FROM `User` WHERE `id` = ?',
+      values = [userId];
+
+    let queryResult;
+
+    try {
+      queryResult = await makeQuery(sqlQueryString, values);
+    } catch (error) {
+      console.error(error);
+
+      return Promise.reject();
+    }
+
+    if (queryResult) {
+      const userData = queryResult[0];
+
+      return Promise.resolve(userData);
+    }
+
+    return Promise.reject({
+      name: 'userNotFoundError',
+      message: 'The user could not be found'
+    });
   }
 };
