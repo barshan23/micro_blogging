@@ -12,7 +12,7 @@ const mysql2 = require('mysql2'),
 
 function query (sql, values) {
   return new Promise((resolve, reject) => {
-    db.execute(sql, values, (error, result, fields) => {
+    db.query(sql, values, (error, result) => {
       if (error) {
         console.error(error);
   

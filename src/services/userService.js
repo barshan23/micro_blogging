@@ -31,5 +31,8 @@ module.exports = {
     await UserModel.followUserById(currentUserId, userIdToFollow);
 
     return Promise.resolve({ message: 'Successfully followed user' });
+  },
+  getFollowers: async (userId) => {
+    return UserModel.getFollowers(userId);
   }
 };

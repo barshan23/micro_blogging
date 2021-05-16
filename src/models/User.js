@@ -105,5 +105,21 @@ module.exports = {
     }
 
     return Promise.resolve();
+  },
+  getFollowers: async (userId) => {
+    const sqlQueryString = 'SELECT `followed_user` FROM `User_follow_through` WHERE `follower_user` = ?',
+      values = [userId];
+
+    let queryResult;
+
+    try {
+      queryResult = await makeQuery(sqlQueryString, values);
+    } catch (err) {
+      console.error(err);
+
+      return Promise.reject({ message: 'Not able to find followers' });
+    }
+
+    return Promise.resolve(queryResult);
   }
 };

@@ -12,7 +12,8 @@ module.exports = {
   registerRoutes:  function (app) {
     app.post('/register', [validateUserNamePassword], userControllers.register);
     app.post('/login', [validateUserNamePassword], authController.login);
-    app.post('/tweet', [validateTweet, isAuthenticated], tweetController.create);
     app.post('/follow/user/:id', [isAuthenticated, validateFollowUser], userControllers.follow);
+    app.post('/tweet', [validateTweet, isAuthenticated], tweetController.create);
+    app.get('/tweet', [isAuthenticated], tweetController.find);
   }
 };

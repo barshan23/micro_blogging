@@ -13,5 +13,16 @@ module.exports = {
       .catch((err) => {
         return handleError(err, res);
       });
+  },
+  find: function (req, res) {
+    const userId = req.userId;
+
+    tweetService.findTweets(userId)
+      .then((response) => {
+        return res.json(response);
+      })
+      .catch((err) => {
+        return handleError(err, res);
+      });
   }
 };
